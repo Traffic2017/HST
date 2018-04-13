@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>EChart map Demo</title>
+    <script src="./src/echarts.min.js"></script>
+    <script src="./src/bmap.min.js"></script>
+    <script src="src/dataTool.min.js"></script>
+    <script src="map/zhejiang.js"></script>
+    <script type="text/javascript" src="http://api.map.baidu.com/getscript?v=2.0&ak=peP029uHoyrcX188MX2gvB293L1sNZBj"></script>
+</head>
+<body>
+<div id="map-wrap" style="width:1000px; height: 600px;">
+    <!-- 这里以后是地图 -->
+</div>
+<script type="text/javascript">
+    var mychart = echarts.init(document.getElementById('map-wrap'))
+    var option = {
+        title:{
+            text: "浙江省地图"
+        },
+        legend:{
+        },
+        bmap:{
+            center:[120.2,30.3],
+            zoom:11,
+            roam: true,
+            mapStyle:{
+                style:'light'
+            }
+        },
+    };
+    mychart.setOption(option);
+    mymap = mychart.getModel().getComponent('bmap').getBMap();
+    mymap.addEventListener("click",function (e) {
+        console.log(e.point.lng+","+e.point.lat)
+    });
+    function getVline() {
+        console.log("test")
+        var x1 = 119.86195;
+        var y1 = 30.46649;
+        var x2 = 119.86195;
+        var y2 = 30.019213;
+        for (var i = 0; i < 100; i++) {
+            var d = []
+            d.push(new BMap.Point(x1 + 0.0077268*i, y1 ))
+            d.push(new BMap.Point(x2 + 0.0077498*i, y2 ))
+            var Vpolyline = new BMap.Polyline(d);
+            mymap.addOverlay(Vpolyline)
+        }
+        return ;
+    }
+    getVline()
+
+    function getHline() {
+        console.log("test")
+        var x1 = 119.86195;
+        var y1 = 30.46649;
+        var x2 = 120.63463;
+        var y2 = 30.46649;
+        for (var i = 0; i < 100; i++) {
+            var d = []
+            d.push(new BMap.Point(x1 , y1 -0.00447277*i ))
+            d.push(new BMap.Point(x2 , y2 -0.00447277*i))
+            var Hpolyline = new BMap.Polyline(d);
+            mymap.addOverlay(Hpolyline)
+        }
+        return ;
+    }
+    getHline()
+    var polyline = new BMap.Polyline([
+        new　BMap.Point(119.86195,30.46649),
+        new　BMap.Point(120.63463,30.46649),
+        new　BMap.Point(120.63463,30.019213),
+        new　BMap.Point(119.86195,30.019213),
+        new　BMap.Point(119.86195,30.46649)
+
+    ]);
+
+    mymap.addOverlay(polyline)
+
+    </script>
+</body>
+</html>
